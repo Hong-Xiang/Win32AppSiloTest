@@ -1,0 +1,2 @@
+MainPackage=D:\Win32AppSiloTest\Win32AppSiloTest\WinUI3DotnetPackagedApp\WinUI3DotnetPackagedApp (Package)\bin\x64\Debug\WinUI3DotnetPackagedApp (Package)_1.0.0.0_x64_Debug.msix
+SymbolPackage=D:\Win32AppSiloTest\Win32AppSiloTest\WinUI3DotnetPackagedApp\WinUI3DotnetPackagedApp (Package)\obj\x64\Debug\Symbols\WinUI3DotnetPackagedApp (Package)_1.0.0.0_x64_Debug.appxsym

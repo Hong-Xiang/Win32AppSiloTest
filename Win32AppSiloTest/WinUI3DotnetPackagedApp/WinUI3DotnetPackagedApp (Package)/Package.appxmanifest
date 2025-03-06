@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
+  IgnorableNamespaces="uap rescap uap18">
+
+	<Identity
+	  Name="0cee9f4c-1596-4aa4-8405-fdb7e08e4838"
+	  Publisher="CN=xianghong"
+	  Version="1.0.0.0" />
+
+	<mp:PhoneIdentity PhoneProductId="0cee9f4c-1596-4aa4-8405-fdb7e08e4838" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+
+	<Properties>
+		<DisplayName>WinUI3DotnetPackagedApp (Package)</DisplayName>
+		<PublisherDisplayName>xianghong</PublisherDisplayName>
+		<Logo>Images\StoreLogo.png</Logo>
+	</Properties>
+
+	<Dependencies>
+		<TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.26100.0" MaxVersionTested="10.0.26226.0" />
+	</Dependencies>
+
+	<Resources>
+		<Resource Language="x-generate"/>
+	</Resources>
+	<!-- EntryPoint="$targetentrypoint$" -->
+	<Applications>
+		<Application Id="App"
+		  Executable="$targetnametoken$.exe"
+		  EntryPoint="Windows.FullTrustApplication" uap18:EntryPoint="Isolated.App" uap18:TrustLevel="appContainer" uap18:RuntimeBehavior="appSilo"
+>
+			<uap:VisualElements
+			  DisplayName="WinUI3DotnetPackagedApp (Package)"
+			  Description="WinUI3DotnetPackagedApp (Package)"
+			  BackgroundColor="transparent"
+			  Square150x150Logo="Images\Square150x150Logo.png"
+			  Square44x44Logo="Images\Square44x44Logo.png">
+				<uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
+				<uap:SplashScreen Image="Images\SplashScreen.png" />
+			</uap:VisualElements>
+		</Application>
+	</Applications>
+
+	<Capabilities>
+		<rescap:Capability Name="runFullTrust" />
+		<rescap:Capability Name="isolatedWin32-promptForAccess" />
+	</Capabilities>
+</Package>

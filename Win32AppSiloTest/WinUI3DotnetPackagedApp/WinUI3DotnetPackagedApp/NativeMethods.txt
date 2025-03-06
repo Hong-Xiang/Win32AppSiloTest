@@ -1,0 +1,12 @@
+﻿CreateFile
+GetOpenFileName
+SHBrowseForFolder
+SHGetPathFromIDList
+CoCreateInstance
+CoInitializeEx
+FileOpenDialog
+IFileOpenDialog
+GetCurrentProcess
+OpenProcessToken
+GetTokenInformation
+SHCreateItemFromParsingName
