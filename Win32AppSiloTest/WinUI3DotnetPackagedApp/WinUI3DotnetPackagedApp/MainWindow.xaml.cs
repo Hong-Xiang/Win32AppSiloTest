@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
 using WinRT.Interop;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,31 +32,60 @@ namespace WinUI3DotnetPackagedApp
             var inOutAppContainerLabel = Win32ApiUtilitiy.GetTokenIsAppContainer() ? "in" : "out";
             appContainerLabel.Text = $"current {inOutAppContainerLabel} app container";
             var installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
-            filePath.Text = installedLocation.Path;
+            inputPath.Text = installedLocation.Path;
         }
 
-        private async void ReadUsingUWPFilePicker(object sender, RoutedEventArgs e)
+
+        private async void ReadFilesUsingDotnetAPI(object sender, RoutedEventArgs e)
         {
             try
             {
-                var picker = new Windows.Storage.Pickers.FileOpenPicker();
-                WinRT.Interop.InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
-                var file = await picker.PickSingleFileAsync();
-                var content = await FileIO.ReadTextAsync(file);
-                outputContent.Text = content;
+                var path = inputPath.Text;
+                if (string.IsNullOrEmpty(path))
+                {
+                    return;
+                }
+                var files = Directory.GetFiles(path);
+                outputContent.Text = string.Join('\n', files);
             }
             catch (Exception err)
             {
                 outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
             }
 
+        }
+
+        private async Task ReadFilesUsingStorageFolder(StorageFolder folder)
+        {
+            var files = await folder.GetFilesAsync();
+            outputContent.Text = string.Join('\n', files.Select(f => f.Path));
+        }
+
+        private async void ReadFilesUsingStorageFolder(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var path = inputPath.Text;
+                if (string.IsNullOrEmpty(path))
+                {
+                    return;
+                }
+                var folder = await StorageFolder.GetFolderFromPathAsync(path);
+                await ReadFilesUsingStorageFolder(folder);
+            }
+            catch (Exception err)
+            {
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
+            }
 
         }
+
+
         private async void ReadUsingFileIO(object sender, RoutedEventArgs e)
         {
             try
             {
-                var path = filePath.Text;
+                var path = inputPath.Text;
                 if (string.IsNullOrEmpty(path))
                 {
                     return;
@@ -74,7 +104,7 @@ namespace WinUI3DotnetPackagedApp
         {
             try
             {
-                var path = filePath.Text;
+                var path = inputPath.Text;
                 var content = File.ReadAllText(path);
                 outputContent.Text = content;
             }
@@ -89,20 +119,63 @@ namespace WinUI3DotnetPackagedApp
             outputContent.Text = "";
         }
 
-        private async void ReadUsingFileDialog(object sender, RoutedEventArgs e)
+        private async void OpenComFileDialog(object sender, RoutedEventArgs e)
         {
             try
             {
-                var path = await Win32ApiUtilitiy.PickFileViaDialog();
-                filePath.Text = path;
-                var content = File.ReadAllText(path);
-                outputContent.Text = content;
+                var path = await Win32ApiUtilitiy.OpenFilePickerAsync();
+                inputPath.Text = path;
+                outputContent.Text = path;
             }
             catch (Exception err)
             {
                 outputContent.Text = err.Message;
             }
 
+        }
+        private async void OpenFolderDialog(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var path = await Win32ApiUtilitiy.OpenFolderPickerAsync();
+                inputPath.Text = path;
+            }
+            catch (Exception err)
+            {
+                outputContent.Text = err.Message;
+            }
+        }
+        private async void OpenUWPFilePicker(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var picker = new Windows.Storage.Pickers.FileOpenPicker();
+                WinRT.Interop.InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                var file = await picker.PickSingleFileAsync();
+                outputContent.Text = file.Path;
+            }
+            catch (Exception err)
+            {
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
+            }
+
+
+        }
+
+        private async void OpenUWPFolderPicker(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var picker = new Windows.Storage.Pickers.FolderPicker();
+                WinRT.Interop.InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                var folder = await picker.PickSingleFolderAsync();
+                outputContent.Text = folder.Path;
+                await ReadFilesUsingStorageFolder(folder);
+            }
+            catch (Exception err)
+            {
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
+            }
         }
     }
 }

@@ -28,11 +28,16 @@
 	<Resources>
 		<Resource Language="x-generate"/>
 	</Resources>
-	<!-- EntryPoint="$targetentrypoint$" -->
+		  <!--EntryPoint="$targetentrypoint$"--> 
 	<Applications>
 		<Application Id="App"
 		  Executable="$targetnametoken$.exe"
-		  EntryPoint="Windows.FullTrustApplication" uap18:EntryPoint="Isolated.App" uap18:TrustLevel="appContainer" uap18:RuntimeBehavior="appSilo"
+
+		  EntryPoint="Windows.FullTrustApplication" 
+		  uap18:TrustLevel="appContainer"
+		  uap18:EntryPoint="Isolated.App"
+		  uap18:RuntimeBehavior="appSilo"
+
 >
 			<uap:VisualElements
 			  DisplayName="WinUI3DotnetPackagedApp (Package)"

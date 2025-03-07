@@ -11,25 +11,15 @@ using Windows.Win32.System.Com;
 using Windows.Win32.UI.Shell;
 using Windows.Win32;
 using Windows.Win32.Security;
+using Microsoft.VisualBasic.FileIO;
 
 namespace WinUI3DotnetPackagedApp;
 
 static class Win32ApiUtilitiy
 {
-    public static unsafe async Task<string> PickFileViaDialog()
+    public static unsafe async Task<string> OpenFilePickerAsync()
     {
         PInvoke.CoCreateInstance(typeof(FileOpenDialog).GUID, null, CLSCTX.CLSCTX_INPROC_SERVER, out IFileOpenDialog picker).ThrowOnFailure();
-        //if (GetTokenIsAppContainer())
-        //{
-        //    picker.SetOptions(FILEOPENDIALOGOPTIONS.FOS_HIDEMRUPLACES | FILEOPENDIALOGOPTIONS.FOS_HIDEPINNEDPLACES);
-        //    var folder = Windows.ApplicationModel.Package.Current.InstalledLocation;
-        //    IShellItem initialFolder = ComFolderPickerCommand.GetShellItemForPath(folder.Path);
-        //    if (initialFolder != null)
-        //    {
-        //        picker.SetFolder(initialFolder);
-        //        picker.SetDefaultFolder(initialFolder);
-        //    }
-        //}
         picker.Show(default);
         picker.GetResult(out var item);
         item.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var pathStr);
@@ -37,6 +27,22 @@ static class Win32ApiUtilitiy
         Marshal.FreeCoTaskMem((nint)pathStr.Value);
         return result;
     }
+
+    public static unsafe async Task<string> OpenFolderPickerAsync()
+    {
+        PInvoke.CoCreateInstance(typeof(FileOpenDialog).GUID, null, CLSCTX.CLSCTX_INPROC_SERVER, out IFileOpenDialog picker).ThrowOnFailure();
+        var pickerOption = FILEOPENDIALOGOPTIONS.FOS_PICKFOLDERS;
+        picker.SetOptions(pickerOption);
+        picker.Show(default);
+        {
+            picker.GetResult(out var item);
+            item.GetDisplayName(SIGDN.SIGDN_FILESYSPATH, out var pathStr);
+            var result = pathStr.ToString();
+            Marshal.FreeCoTaskMem((nint)pathStr.Value);
+            return result;
+        }
+    }
+
     public unsafe static bool GetTokenIsElevated()
     {
         // from https://learn.microsoft.com/en-us/windows/win32/secauthz/appcontainer-for-legacy-applications-#c-pinvoke

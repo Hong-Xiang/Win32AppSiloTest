@@ -12,14 +12,26 @@
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock x:Name="appContainerLabel"></TextBlock>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock>Input File Path</TextBlock>
-            <TextBox x:Name="filePath"></TextBox>
-            <Button Click="ReadUsingFileIO">Read File Using FileIO</Button>
-            <Button Click="ReadUsingDotnetAPI">Read File Using .NET API</Button>
+            <TextBlock>Input Path</TextBlock>
+            <TextBox x:Name="inputPath"></TextBox>
         </StackPanel>
-        <Button Click="ReadUsingFileDialog">Read File Using COM Picker</Button>
-        <Button Click="ReadUsingUWPFilePicker">Read File Using UWP Picker</Button>
-        <Button Click="ClearContent">Clear Content</Button>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Click="ReadUsingDotnetAPI">Read File Using .NET API</Button>
+            <Button Click="ReadUsingFileIO">Read File Using FileIO</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Click="ReadFilesUsingDotnetAPI">Read Child Items (File Names) Using .NET API</Button>
+            <Button Click="ReadFilesUsingStorageFolder">Read Child Items (File Names) Using StorageFolder</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Click="OpenComFileDialog">Open COM File Picker</Button>
+            <Button Click="OpenUWPFilePicker">Open UWP File Picker</Button>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button Click="OpenFolderDialog">Open COM Folder Dialog</Button>
+            <Button Click="OpenUWPFolderPicker">Open UWP Folder Picker</Button>
+        </StackPanel>
+        <Button Click="ClearContent">Clear Result Content</Button>
 
         <ScrollViewer Width="800" Height="600">
             <TextBlock x:Name="outputContent"></TextBlock>
