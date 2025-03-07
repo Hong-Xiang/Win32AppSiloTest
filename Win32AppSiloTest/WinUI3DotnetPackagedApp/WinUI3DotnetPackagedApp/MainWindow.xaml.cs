@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Storage;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,8 +28,29 @@ namespace WinUI3DotnetPackagedApp
         public MainWindow()
         {
             this.InitializeComponent();
+            var inOutAppContainerLabel = Win32ApiUtilitiy.GetTokenIsAppContainer() ? "in" : "out";
+            appContainerLabel.Text = $"current {inOutAppContainerLabel} app container";
+            var installedLocation = Windows.ApplicationModel.Package.Current.InstalledLocation;
+            filePath.Text = installedLocation.Path;
         }
 
+        private async void ReadUsingUWPFilePicker(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var picker = new Windows.Storage.Pickers.FileOpenPicker();
+                WinRT.Interop.InitializeWithWindow.Initialize(picker, WindowNative.GetWindowHandle(this));
+                var file = await picker.PickSingleFileAsync();
+                var content = await FileIO.ReadTextAsync(file);
+                outputContent.Text = content;
+            }
+            catch (Exception err)
+            {
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
+            }
+
+
+        }
         private async void ReadUsingFileIO(object sender, RoutedEventArgs e)
         {
             try
@@ -44,7 +66,7 @@ namespace WinUI3DotnetPackagedApp
             }
             catch (Exception err)
             {
-                outputContent.Text = err.Message;
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
             }
         }
 
@@ -58,7 +80,7 @@ namespace WinUI3DotnetPackagedApp
             }
             catch (Exception err)
             {
-                outputContent.Text = err.Message;
+                outputContent.Text = $"{err.GetType().Name}{Environment.NewLine}{err.Message}";
             }
         }
 

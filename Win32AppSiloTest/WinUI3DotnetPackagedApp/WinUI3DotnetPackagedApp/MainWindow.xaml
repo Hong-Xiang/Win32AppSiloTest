@@ -10,13 +10,15 @@
     Title="WinUI3DotnetPackagedApp">
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock x:Name="appContainerLabel"></TextBlock>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock>Input File Path</TextBlock>
             <TextBox x:Name="filePath"></TextBox>
             <Button Click="ReadUsingFileIO">Read File Using FileIO</Button>
             <Button Click="ReadUsingDotnetAPI">Read File Using .NET API</Button>
         </StackPanel>
-        <Button Click="ReadUsingFileDialog">Read File Using Dialog</Button>
+        <Button Click="ReadUsingFileDialog">Read File Using COM Picker</Button>
+        <Button Click="ReadUsingUWPFilePicker">Read File Using UWP Picker</Button>
         <Button Click="ClearContent">Clear Content</Button>
 
         <ScrollViewer Width="800" Height="600">

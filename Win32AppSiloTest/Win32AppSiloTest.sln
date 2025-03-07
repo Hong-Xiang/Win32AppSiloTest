@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "WinUI3DotnetPackagedApp (Package)", "WinUI3DotnetPackagedApp\WinUI3DotnetPackagedApp (Package)\WinUI3DotnetPackagedApp (Package).wapproj", "{23605EEE-D38D-403A-9F58-7797C7892737}"
 EndProject

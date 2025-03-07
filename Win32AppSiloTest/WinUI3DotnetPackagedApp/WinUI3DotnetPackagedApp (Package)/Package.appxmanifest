@@ -48,6 +48,6 @@
 
 	<Capabilities>
 		<rescap:Capability Name="runFullTrust" />
-		<rescap:Capability Name="isolatedWin32-promptForAccess" />
+		<!--<rescap:Capability Name="isolatedWin32-promptForAccess" />-->
 	</Capabilities>
 </Package>
